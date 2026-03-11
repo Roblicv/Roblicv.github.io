@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Personal Terminal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+
+<body>
+  <!-- COMPONENT: Background -->
+  <div class="bg-lines" aria-hidden="true"></div>
+
+  <!-- COMPONENT: Zen Screen -->
+  <div class="zen-screen" id="zenScreen" aria-hidden="true">
+    <div class="zen-quote">La sabiduria es el espacio entre los pensamientos</div>
+  </div>
+
+  <!-- COMPONENT: App Shell -->
+  <div class="app" id="app">
+    <!-- COMPONENT: Topbar -->
+    <header class="topbar" role="banner">
+      <div class="top-left">PERSONAL TERMINAL</div>
+
+      <div class="clocks" id="clocks" aria-label="Clocks">
+        <div class="clock"><span class="city">BOG</span><span class="time" id="tBog">--:--</span></div>
+        <div class="clock"><span class="city">TYO</span><span class="time" id="tTyo">--:--</span></div>
+        <div class="clock"><span class="city">OSL</span><span class="time" id="tOsl">--:--</span></div>
+      </div>
+
+      <div class="top-right">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-label">STATUS:</span>
+        <span class="status-value">ACTIVE</span>
+      </div>
+    </header>
+
+    <!-- COMPONENT: Main -->
+    <main class="main" role="main">
+      <section class="layout" aria-label="Main Layout">
+        <!-- COMPONENT: Record Panel -->
+        <section class="panel panel-record" aria-label="Identity Record">
+          <div class="portrait-wrap" id="portraitWrap" aria-label="Portrait">
+            <div class="hello" id="hello" aria-hidden="true">SALUDOS</div>
+            <div class="portrait">
+              <!-- Pega aquí tu PNG con transparencia -->
+              <img src="./imgs/rob-main.JPEG" alt="Portrait">
+            </div>
+          </div>
+
+          <div class="record">
+            <div class="row">
+              <div class="label">IDENT</div>
+              <div class="value">Julian R Capador Cristancho</div>
+            </div>
+            <div class="row">
+              <div class="label">EXP</div>
+              <div class="value">11 Years</div>
+            </div>
+            <div class="row">
+              <div class="label">ROLE</div>
+              <div class="value">Senior Motion Designer</div>
+            </div>
+            <div class="row">
+              <div class="label">FOCUS</div>
+              <div class="value">Motion / Interactivity / Gen AI</div>
+            </div>
+            <div class="row">
+              <div class="label">STUDY</div>
+              <div class="value">Physics student / Archery training</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="btnArchive" type="button">OPEN WORK ARCHIVE</button>
+            <button class="btn" id="btnContact" type="button">OPEN CONTACT</button>
+          </div>
+        </section>
+
+        <!-- COMPONENT: About Panel -->
+        <section class="panel panel-about" aria-label="About Section">
+          <div class="headerline">
+            <div class="section-title">ABOUT</div>
+          </div>
+
+          <div class="about">
+            <p>
+              I work at <a href="https://www.superside.com/" target="_blank" rel="noopener noreferrer">Superside</a>
+              (Silicon Valley–based), focusing on Motion Design, Interactive experiences, and video editing.
+              I’m based in Bogotá,COL.
+            </p>
+
+            <p>
+              I blend <strong>logic and rigor</strong> with artistic sensibility.
+              Previously, I worked at DDB (Poker, Águila), Fox Telecolombia (Sin Senos Sí Hay Paraíso, 2091),
+              and Rappi InHouse during the pandemic years. More recently, I’ve partnered with teams at
+              Meta (Facebook), Amazon, Twitch, Intuit (QuickBooks &amp; TurboTax), SoundCloud, Reddit, and Microsoft.
+            </p>
+
+            <p>
+              I study Physics at
+              <a href="https://www.uniandes.edu.co/" target="_blank" rel="noopener noreferrer">Universidad de los Andes</a>,
+              learn Japanese and Norwegian, train archery with a long-term goal of pre-Olympic competition,
+              and study opera with a Colombian soprano.
+            </p>
+
+            <p><i>Final step: what will I learn today?</i></p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- COMPONENT: Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="build"><strong>BUILD:</strong> RA-1.0</div>
+
+      <!-- Desktop -->
+      <div class="keys keys-default">
+        <span class="key">ESC</span><span>zen</span>
+        <span>·</span>
+        <span class="key">TAB</span><span>cont</span>
+      </div>
+
+      <!-- Tablet/Mobile -->
+      <div class="keys keys-mobile">NODE: BOG-01</div>
+    </footer>
+  </div>
+
+  <!-- COMPONENT: Contact Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <div class="modal-header">
+        <div class="modal-title" id="contactTitle">CONTACT</div>
+        <button class="close" id="btnClose" type="button">CLOSE</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="contact-row">
+          <div>EMAIL</div>
+          <div><a href="mailto:julianhiki@gmail.com">julianhiki@gmail.com</a></div>
+          <button class="mini" id="btnCopy" type="button">COPY</button>
+          <!--  <a class="mini" href="mailto:julianhiki@gmail.com">MAILTO</a> -->
+        </div>
+
+        <div class="contact-row">
+          <div>LINKEDIN</div>
+          <div><a href="https://www.linkedin.com/in/roblic/" target="_blank" rel="noopener noreferrer">Julian Cristancho</a></div>
+          <div></div><div></div>
+        </div>
+
+        <div class="contact-row">
+          <div>BEHANCE</div>
+          <div><a href="https://www.behance.net/Roblicawen" target="_blank" rel="noopener noreferrer">Check them out</a></div>
+          <div></div><div></div>
+        </div>
+
+        <div class="contact-row">
+          <div>VIMEO</div>
+          <div><a href="https://vimeo.com/roblicawen" target="_blank" rel="noopener noreferrer">Reel & Xperiments</a></div>
+          <div></div><div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENT: Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied.</div>
+</body>
+</html>
