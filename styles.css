@@ -452,7 +452,7 @@ body.zen .zen-screen{ display: flex; }
   color: var(--ink);
   text-decoration: none;
   justify-self: end;
-  align-self: start;
+  align-self: center; /* <- centra vertical */
   margin-top: 0;
   border-bottom: 1px solid rgba(91,15,23,.45);
   text-transform: none;
@@ -543,7 +543,7 @@ body.zen .zen-screen{ display: flex; }
 
   .contact-row{
     grid-template-columns: 80px 1fr auto;
-    align-items: start;
+    align-items: center; /* <- antes estaba start */
   }
   .contact-row .mini{
     justify-self: end;

@@ -93,18 +93,40 @@ function initPortraitHover() {
   const wrap = $("portraitWrap");
   const hello = $("hello");
 
-  const hoverTexts = ["Saludos terricola", "si, si, ¡SI!", "Erre", "Eureka"];
+  const hoverTexts = ["Saludos terricola", "No lo se", "Recalcitrante", "Eureka"];
 
-  // Si lo quieres EXACTO en la punta, deja 0.
-  // Si no quieres que tape el cursor, usa 8–14.
   const offsetX = 0;
   const offsetY = 0;
 
   let raf = 0;
   let lastEvt = null;
+  let isTouchMode = false;
+  let hideTimer = null;
+
+  // Detecta si hay hover de verdad (mouse/trackpad)
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   function randomHello() {
     hello.textContent = hoverTexts[Math.floor(Math.random() * hoverTexts.length)];
+  }
+
+  function show() {
+    hello.classList.add("is-on");
+    hello.setAttribute("aria-hidden", "false");
+  }
+
+  function hide() {
+    hello.classList.remove("is-on");
+    hello.setAttribute("aria-hidden", "true");
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+  }
+
+  function scheduleHide(ms = 1400) {
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, ms);
   }
 
   function moveHello(e) {
@@ -112,23 +134,67 @@ function initPortraitHover() {
     hello.style.top  = (e.clientY + offsetY) + "px";
   }
 
-  wrap.addEventListener("mouseenter", (e) => {
-    randomHello();
-    hello.classList.add("is-on");
-    moveHello(e);
-  });
-
-  wrap.addEventListener("mousemove", (e) => {
-    lastEvt = e;
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = 0;
-      if (lastEvt) moveHello(lastEvt);
+  // ===== Desktop (hover real) =====
+  if (canHover) {
+    wrap.addEventListener("mouseenter", (e) => {
+      randomHello();
+      show();
+      moveHello(e);
     });
+
+    wrap.addEventListener("mousemove", (e) => {
+      lastEvt = e;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        if (lastEvt) moveHello(lastEvt);
+      });
+    });
+
+    wrap.addEventListener("mouseleave", hide);
+    return;
+  }
+
+  // ===== Mobile/Touch =====
+  // En touch: mostrar al tap y ocultar con:
+  // - segundo tap (toggle)
+  // - tap afuera
+  // - scroll
+  // - timeout corto
+  wrap.addEventListener("pointerdown", (e) => {
+    // Marca que estamos en modo touch si no es mouse
+    if (e.pointerType !== "mouse") isTouchMode = true;
+    if (!isTouchMode) return;
+
+    e.preventDefault(); // evita emulación rara de hover/click en algunos browsers
+    randomHello();
+
+    // posiciona cerca del dedo
+    moveHello(e);
+
+    // toggle
+    const isOn = hello.classList.contains("is-on");
+    if (isOn) {
+      hide();
+    } else {
+      show();
+      scheduleHide(1600);
+    }
+  }, { passive: false });
+
+  // Tap afuera => cerrar
+  document.addEventListener("pointerdown", (e) => {
+    if (!isTouchMode) return;
+    if (!wrap.contains(e.target)) hide();
   });
 
-  wrap.addEventListener("mouseleave", () => {
-    hello.classList.remove("is-on");
+  // Scroll => cerrar (porque si no, se queda pegado fijo)
+  window.addEventListener("scroll", () => {
+    if (isTouchMode) hide();
+  }, { passive: true });
+
+  window.addEventListener("resize", () => {
+    if (isTouchMode) hide();
   });
 }
 
